@@ -5,13 +5,13 @@ const ColorGenerator = () => {
     //max är 16777215, min är 0.
     // const [primaryColor, setPrimaryColor] = React.useState(new Array(5).fill("0").map(() => getRandomInt(16777215).toString(16)));
     const [primaryColor, setPrimaryColor] = React.useState(padHexCode(getRandomInt(16777215).toString(16)));
-    const [fontColor, setFontColor] = React.useState("000000");
-    const [monoChrome, setMonoChrome] = React.useState(generateMonochrome(primaryColor))
+    // const [fontColor, setFontColor] = React.useState("000000");
+    const [colors, setColors] = React.useState(generateMonochrome(primaryColor))
+    const [colorMode, setColorMode] = React.useState("Monochrome")
 
-    console.log(monoChrome);
     React.useEffect(()=> {
-        setMonoChrome(generateMonochrome(primaryColor))
-        getLuma(primaryColor) > 0.5 ? setFontColor("000000") : setFontColor("FFFFFF");
+        setColors(generateMonochrome(primaryColor))
+        
     }, [primaryColor])
 
     const handleSpace = () => {
@@ -21,17 +21,17 @@ const ColorGenerator = () => {
 
 
     const styles=[
-        {backgroundColor: `#${monoChrome[0]}`, color: `#${fontColor}`},
-        {backgroundColor: `#${monoChrome[1]}`, color: `#${fontColor}`},
-        {backgroundColor: `#${monoChrome[2]}`, color: `#${fontColor}`},
-        {backgroundColor: `#${monoChrome[3]}`, color: `#${fontColor}`},
-        {backgroundColor: `#${monoChrome[4]}`, color: `#${fontColor}`}
+        {backgroundColor: `#${colors[0]}`, color: `#${getLuma(colors[0]) > 0.5 ? "000000" : "FFFFFF"}`},
+        {backgroundColor: `#${colors[1]}`, color: `#${getLuma(colors[1]) > 0.5 ? "000000" : "FFFFFF"}`},
+        {backgroundColor: `#${colors[2]}`, color: `#${getLuma(colors[2]) > 0.5 ? "000000" : "FFFFFF"}`},
+        {backgroundColor: `#${colors[3]}`, color: `#${getLuma(colors[3]) > 0.5 ? "000000" : "FFFFFF"}`},
+        {backgroundColor: `#${colors[4]}`, color: `#${getLuma(colors[4]) > 0.5 ? "000000" : "FFFFFF"}`}
     ]
 
     return (
         <div
         onKeyDown={(e)=> e.key===" " ? handleSpace() : undefined}>
-            <ColorView styles={styles}/>
+            <ColorView styles={styles} colorMode={colorMode} setColorMode={setColorMode}/>
         </div>
     )
 }
@@ -137,4 +137,15 @@ function generateMonochrome(primaryColor) {
         arr[i] = color
     }
     return arr.map(hsl => hslToRgb(hsl)).map(rgb => getHex(rgb));
+}
+
+
+function generateAnalogous(primaryColor) {
+    // Analogous color schemes are created by using colors that are next to each other on the color wheel.
+    //Just change the Hue angle by 30 degrees (or make selectable?).
+}
+
+function generateTriadic(primaryColor) {
+    // Triadic schemes are made up of hues equally spaced around the color wheel.
+    // Just set the hue angles to 72 degrees apart (5 colors).
 }

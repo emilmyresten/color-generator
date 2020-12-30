@@ -49,7 +49,30 @@ html {
 }
 
 .FifthContainer {
+    display:flex;
+    justify-content: flex-start;
+    flex-direction: column;
     width: 100%;
     height:50%;
     background-color: beige;
+}
+
+.hexcode {
+    align-self: center;
+}
+
+.modeSelectors {
+    display:flex;
+    flex-direction: row;
+}
+
+.selectorButton {
+    outline: solid 1px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.selectorButton:hover {
+    opacity:0.5;
+    cursor: default;
 }
