@@ -10,12 +10,16 @@ html {
     justify-content: space-between;
     width:100%;
     height:300px;
+    border-radius: 20px;
+    overflow: hidden;
+    outline: none;
+    
 }
 
 .PrimaryContainer {
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width:50%;
     height:100%;
@@ -75,4 +79,15 @@ html {
 .selectorButton:hover {
     opacity:0.5;
     cursor: default;
+}
+
+.colorNumber {
+    padding:20px;
+    align-self: flex-start ;
+}
+
+.howTo {
+    align-self: flex-start;
+    padding:20px;
+    font-size: small;
 }

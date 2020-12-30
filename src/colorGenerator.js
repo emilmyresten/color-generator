@@ -8,11 +8,16 @@ const ColorGenerator = () => {
     // const [fontColor, setFontColor] = React.useState("000000");
     const [colors, setColors] = React.useState(generateMonochrome(primaryColor))
     const [colorMode, setColorMode] = React.useState("Monochrome")
+    const colorModeFunctions = {
+        "Monochrome": () => setColors(generateMonochrome(primaryColor)),
+        "Analogous": () => setColors(generateAnalogous(primaryColor)),
+        "Evenly Spaced": () => setColors(generateTriadic(primaryColor)),
+    }
 
     React.useEffect(()=> {
-        setColors(generateMonochrome(primaryColor))
+        colorModeFunctions[colorMode]()
         
-    }, [primaryColor])
+    }, [primaryColor, colorMode])
 
     const handleSpace = () => {
         setPrimaryColor(padHexCode(getRandomInt(16777215).toString(16)));
@@ -56,9 +61,9 @@ function getRgb(hexCode) {
 
 function getHex(rgb) {
     //receives rgb as dict, ex: {r: 133, g: 13, b: 88}
-    const r = rgb.r.toString(16).length == 2 ? rgb.r.toString(16) : `0${rgb.r.toString(16)}`
-    const g = rgb.g.toString(16).length == 2 ? rgb.g.toString(16) : `0${rgb.g.toString(16)}`
-    const b = rgb.b.toString(16).length == 2 ? rgb.b.toString(16) : `0${rgb.b.toString(16)}`
+    const r = rgb.r.toString(16).length === 2 ? rgb.r.toString(16) : `0${rgb.r.toString(16)}`
+    const g = rgb.g.toString(16).length === 2 ? rgb.g.toString(16) : `0${rgb.g.toString(16)}`
+    const b = rgb.b.toString(16).length === 2 ? rgb.b.toString(16) : `0${rgb.b.toString(16)}`
     const hexCode = `${r}${g}${b}`
     if (hexCode.length != 6) {
         return padHexCode(hexCode)
@@ -128,7 +133,6 @@ function generateMonochrome(primaryColor) {
     // objects based on the primary color with decreasing luminosity.
     const rgb = getRgb(primaryColor);
     const hsl = rgbToHsl(rgb);
-    const weigth = 10;
     const arr = new Array(5);
 
     for (let i = 0; i < arr.length; i++) {
@@ -143,9 +147,31 @@ function generateMonochrome(primaryColor) {
 function generateAnalogous(primaryColor) {
     // Analogous color schemes are created by using colors that are next to each other on the color wheel.
     //Just change the Hue angle by 30 degrees (or make selectable?).
+    const rgb = getRgb(primaryColor);
+    const hsl = rgbToHsl(rgb);
+    const arr = new Array(5);
+    const angle = 12;
+
+    for (let i = 0; i < arr.length; i++) {
+        const color = {...hsl} // create a copy of hsl in order to not mutate it.
+        color.h = i % 2 === 0 ? color.h + (i*angle) > 360 ? color.h + (i*angle) - 360 : color.h + (i*angle) : color.h - (i*angle) < 0 ? color.h - (i*angle) + 360 : color.h - (i*angle)
+        arr[i] = color
+    }
+    return arr.map(hsl => hslToRgb(hsl)).map(rgb => getHex(rgb));
 }
 
 function generateTriadic(primaryColor) {
     // Triadic schemes are made up of hues equally spaced around the color wheel.
     // Just set the hue angles to 72 degrees apart (5 colors).
+    const rgb = getRgb(primaryColor);
+    const hsl = rgbToHsl(rgb);
+    const arr = new Array(5);
+
+    for (let i = 0; i < arr.length; i++) {
+        const color = {...hsl} // create a copy of hsl in order to not mutate it.
+        color.h = color.h + ((360/arr.length)*i) > 360 ? color.h + ((360/arr.length)*i) - 360 : color.h + ((360/arr.length)*i);
+        arr[i] = color
+        console.log(arr)
+    }
+    return arr.map(hsl => hslToRgb(hsl)).map(rgb => getHex(rgb));
 }

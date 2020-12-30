@@ -6,33 +6,30 @@ const ColorView = ({styles, colorMode, setColorMode}) => {
         className="MainContainer"
         tabIndex="0">
             <div className="PrimaryContainer" style={styles[0]}>
+                <div className="colorNumber">1. {styles[0].backgroundColor.toUpperCase()}</div>
                 <div className="modeSelectors">
                     {modes.map(e => 
-                    <div className="selectorButton">
+                    <div 
+                    className="selectorButton"
+                    onClick={() => setColorMode(e)}
+                    >
                         {e == colorMode ? <span><b>{e}</b></span> : <span>{e}</span>}
                     </div>)}
 
                 </div>
-                <div className="PrimaryTitle">
-                    <b>Click me!</b>
+                <div className="howTo">
+                    <b></b>
+                    <br/>press space to generate <code>{colorMode}</code> colors
                 </div>
-                <div className="PrimaryParagraph">
-                    And press space to generate colors
-                </div>
-                <div className="hexcode">{styles[0].backgroundColor}</div>
             </div>
             <div className="SecondaryContainer" style={styles[1]}>
-                <div>2.</div>
-                <div className="hexcode">{styles[1].backgroundColor}</div>
+                <div className="colorNumber">2. {styles[1].backgroundColor.toUpperCase()}</div>
                 <div className="ThirdContainer" style={styles[2]}>
-                    <div>3.</div>
-                    <div className="hexcode">{styles[2].backgroundColor}</div>
+                    <div className="colorNumber">3. {styles[2].backgroundColor.toUpperCase()}</div>
                     <div className="FourthContainer" style={styles[3]}>
-                        <div>4.</div>
-                        <div className="hexcode">{styles[3].backgroundColor}</div>
+                        <div className="colorNumber">4. {styles[3].backgroundColor.toUpperCase()}</div>
                         <div className="FifthContainer" style={styles[4]}>
-                            <div>5.</div>
-                            <div className="hexcode">{styles[4].backgroundColor}</div>
+                            <div className="colorNumber">5. {styles[4].backgroundColor.toUpperCase()}</div>
                         </div>
                     </div>
                 </div>
